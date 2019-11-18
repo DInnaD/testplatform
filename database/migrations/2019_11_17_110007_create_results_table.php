@@ -15,7 +15,13 @@ class CreateResultsTable extends Migration
     {
         Schema::create('results', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('count_answers');
             $table->timestamps();
+            $table->softDeletes();
+            $table->unsignedBigInteger('answer_id')->nullable()->default(NULL);
+            $table->foreign('answer_id')->references('id')->on('answers')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+            $table->unsignedBigInteger('auto_answer_id')->nullable()->default(NULL);
+            $table->foreign('auto_answer_id')->references('id')->on('auto_answers')->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
     }
 

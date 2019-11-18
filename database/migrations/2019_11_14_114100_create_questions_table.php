@@ -15,7 +15,14 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('question');
+            $table->integer('type_question');
+            $table>unsignedBigInteger('test_id')->nullable()->default(NULL);
             $table->timestamps();
+            $table->softDeletes();
+        });
+        Schema::table('questions', function (Blueprint $table) {
+            $table->foreign('test_id')->references('id')->on('tests')->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
     }
 

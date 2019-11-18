@@ -15,7 +15,12 @@ class CreateAnswersTable extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('answer', '255');
+            $table->unsignedBigInteger('question_id')->nullable()->default(NULL);
+            $table->enum('correct_answer', ['0', '1']);
             $table->timestamps();
+            $table->softDeletes();
+            $table->foreign('question_id')->references('id')->on('questions')->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
     }
 

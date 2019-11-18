@@ -15,12 +15,20 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->integer('role_id', false, 10);
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->string('firstname')->nullable();
+            $table->string('lastname')->nullable();
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->boolean('verified')->default(false);
+            $table->string('social_id')->nullable();
+            $table->enum('social',['Google','Facebook'])->nullable();
+            $table->string('password')->nullable();
+            $table->boolean('popup')->nullable();
+            $table->integer('parent_phone')->nullable();
+            $table->enum('role',['admin','main_creator','creator','user'])->nullable();
             $table->rememberToken();
-            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
